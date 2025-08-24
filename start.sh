@@ -4,7 +4,13 @@ set -euo pipefail
 export DISPLAY=${DISPLAY:-:99}
 export PORT=${PORT:-7860}
 
-mkdir -p /root/.config /root/.cache
+# Setup writable HOME and XDG dirs (HF Spaces may run as non-root)
+HOME_DIR="${HOME:-/tmp/lx-home}"
+export HOME="$HOME_DIR"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME_DIR/.config}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME_DIR/.cache}"
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-$HOME_DIR/.runtime}"
+mkdir -p "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME" "$XDG_RUNTIME_DIR"
 
 XVFB_W=1280
 XVFB_H=800
